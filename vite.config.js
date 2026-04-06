@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 // Change "calc-plus" to your actual GitHub repo name
-const REPO_NAME = "calc-plus";
+const REPO_NAME = "Calculator";
 
 export default defineConfig({
   plugins: [react()],
