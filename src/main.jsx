@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")).render(
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("/sw.js")
+      .register("./sw.js")
       .then(() => console.log("SW registered"))
       .catch((err) => console.log("SW failed:", err));
   });
