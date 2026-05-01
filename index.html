@@ -1062,33 +1062,55 @@ function applyFont(f){
 if(mq)mq.addEventListener('change',function(){if(cfg.theme==='system')applyTheme('system');});
 
 /* ── AUDIO/HAPTICS ── */
-/* ── AUDIO CACHE ── */
-var _audioCache={};
-function _loadAudio(src){
-  if(!_audioCache[src]){
-    var a=new Audio(src);
-    a.preload='auto';
-    _audioCache[src]=a;
-  }
-  return _audioCache[src];
+/* ── AUDIO ENGINE (zero-latency WebAudio buffers) ── */
+var _actx=null;
+var _bufs={};  /* filename → AudioBuffer, pre-decoded */
+
+function _getCtx(){
+  if(!_actx)_actx=new(window.AudioContext||window.webkitAudioContext)();
+  /* resume if suspended (iOS policy) */
+  if(_actx.state==='suspended')_actx.resume();
+  return _actx;
 }
+
+function _preload(files){
+  var ctx=_getCtx();
+  files.forEach(function(f){
+    if(_bufs[f])return;
+    _bufs[f]=null; /* mark in-progress */
+    fetch(f).then(function(r){return r.arrayBuffer();})
+      .then(function(ab){return ctx.decodeAudioData(ab);})
+      .then(function(buf){_bufs[f]=buf;})
+      .catch(function(){});
+  });
+}
+
+/* Pre-decode all 4 sounds immediately */
+(function(){
+  try{_preload(['pop.mp3','click.mp3','flip.mp3','switch.mp3']);}catch(e){}
+})();
+
 function beep(t){
   var pk=cfg.soundPack||'pop';
   if(!cfg.sound||pk==='silent')return;
-  /* Map event type → which mp3 file to use per pack */
   var packMap={
-    'pop'  :{num:'pop.mp3',  op:'flip.mp3', eq:'flip.mp3', c:'switch.mp3', del:'switch.mp3', x:'pop.mp3'},
-    'click':{num:'click.mp3',op:'click.mp3',eq:'flip.mp3', c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
-    'flip' :{num:'flip.mp3', op:'flip.mp3', eq:'flip.mp3', c:'switch.mp3', del:'switch.mp3', x:'flip.mp3'},
-    'switch':{num:'switch.mp3',op:'switch.mp3',eq:'switch.mp3',c:'switch.mp3',del:'switch.mp3',x:'switch.mp3'}
+    'pop'   :{num:'pop.mp3',   op:'flip.mp3',   eq:'flip.mp3',   c:'switch.mp3', del:'switch.mp3', x:'pop.mp3'},
+    'click' :{num:'click.mp3', op:'click.mp3',  eq:'flip.mp3',   c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
+    'flip'  :{num:'flip.mp3',  op:'flip.mp3',   eq:'flip.mp3',   c:'switch.mp3', del:'switch.mp3', x:'flip.mp3'},
+    'switch':{num:'switch.mp3',op:'switch.mp3', eq:'switch.mp3', c:'switch.mp3', del:'switch.mp3', x:'switch.mp3'}
   };
   var map=packMap[pk]||packMap['pop'];
-  var file=map[t]||map['num'];
+  var file=map[t]||'pop.mp3';
   try{
-    var a=_loadAudio(file);
-    var clone=a.cloneNode();
-    clone.volume=0.55;
-    clone.play().catch(function(){});
+    var ctx=_getCtx();
+    var buf=_bufs[file];
+    if(!buf)return; /* not yet decoded — skip rather than lag */
+    var src=ctx.createBufferSource();
+    var gain=ctx.createGain();
+    src.buffer=buf;
+    gain.gain.value=0.55;
+    src.connect(gain);gain.connect(ctx.destination);
+    src.start(0); /* instant — no scheduling delay */
   }catch(e){}
 }
 function vibe(ms){if(!cfg.haptics)return;try{navigator.vibrate&&navigator.vibrate(ms||8);}catch(e){}}
