@@ -753,9 +753,10 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
           <div class="s-box"><div class="s-row nt"><div class="s-ri">🔊</div><span class="s-rl">Key Sounds</span><button class="s-tog" id="togSound"></button></div></div>
           <div class="s-lbl">Sound Pack</div>
           <div class="s-sound-packs" id="soundPackGrid">
-            <div class="spack sel" data-pack="soft"><div class="spack-ico">🎵</div><div class="spack-nm">Soft</div><div class="spack-ds">Smooth sine tones</div></div>
-            <div class="spack" data-pack="mechanical"><div class="spack-ico">⚙️</div><div class="spack-nm">Mechanical</div><div class="spack-ds">Clicky square waves</div></div>
-            <div class="spack" data-pack="click"><div class="spack-ico">👆</div><div class="spack-nm">Click</div><div class="spack-ds">Crisp triangle pops</div></div>
+            <div class="spack sel" data-pack="pop"><div class="spack-ico">🫧</div><div class="spack-nm">Pop</div><div class="spack-ds">Soft bubble pops</div></div>
+            <div class="spack" data-pack="click"><div class="spack-ico">👆</div><div class="spack-nm">Click</div><div class="spack-ds">Crisp key clicks</div></div>
+            <div class="spack" data-pack="flip"><div class="spack-ico">🎴</div><div class="spack-nm">Flip</div><div class="spack-ds">Card flip sounds</div></div>
+            <div class="spack" data-pack="switch"><div class="spack-ico">🔘</div><div class="spack-nm">Switch</div><div class="spack-ds">Toggle switch</div></div>
             <div class="spack" data-pack="silent"><div class="spack-ico">🔇</div><div class="spack-nm">Silent</div><div class="spack-ds">No sound at all</div></div>
           </div>
           <div class="s-lbl">Tactile</div>
@@ -999,7 +1000,7 @@ var DEF_LAYOUT=[
   {id:'eq', lbl:'=',  cls:'b-eq',  act:'eq',   col:3,row:5,cs:2,rs:1},
 ];
 
-var DEF_CFG={theme:'light',sound:true,haptics:true,numFormat:'en-IN',tapeSize:5,mainOp:'+',memory:0,devMode:false,showCount:false,layout:null,calcMode:'standard',colorTheme:'default',soundPack:'soft',font:'rounded'};
+var DEF_CFG={theme:'light',sound:true,haptics:true,numFormat:'en-IN',tapeSize:5,mainOp:'+',memory:0,devMode:false,showCount:false,layout:null,calcMode:'standard',colorTheme:'default',soundPack:'pop',font:'rounded'};
 
 /* ── FULL CALCULATION HISTORY (persisted separately from tape) ── */
 var HIST_KEY='calcpx4_hist';
@@ -1061,19 +1062,33 @@ function applyFont(f){
 if(mq)mq.addEventListener('change',function(){if(cfg.theme==='system')applyTheme('system');});
 
 /* ── AUDIO/HAPTICS ── */
+/* ── AUDIO CACHE ── */
+var _audioCache={};
+function _loadAudio(src){
+  if(!_audioCache[src]){
+    var a=new Audio(src);
+    a.preload='auto';
+    _audioCache[src]=a;
+  }
+  return _audioCache[src];
+}
 function beep(t){
-  var pk=cfg.soundPack||'soft';
+  var pk=cfg.soundPack||'pop';
   if(!cfg.sound||pk==='silent')return;
+  /* Map event type → which mp3 file to use per pack */
+  var packMap={
+    'pop'  :{num:'pop.mp3',  op:'flip.mp3', eq:'flip.mp3', c:'switch.mp3', del:'switch.mp3', x:'pop.mp3'},
+    'click':{num:'click.mp3',op:'click.mp3',eq:'flip.mp3', c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
+    'flip' :{num:'flip.mp3', op:'flip.mp3', eq:'flip.mp3', c:'switch.mp3', del:'switch.mp3', x:'flip.mp3'},
+    'switch':{num:'switch.mp3',op:'switch.mp3',eq:'switch.mp3',c:'switch.mp3',del:'switch.mp3',x:'switch.mp3'}
+  };
+  var map=packMap[pk]||packMap['pop'];
+  var file=map[t]||map['num'];
   try{
-    var c=new(window.AudioContext||window.webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();
-    o.connect(g);g.connect(c.destination);
-    var f={num:400,op:560,eq:640,c:220,del:320,x:480};
-    var freq=f[t]||400;
-    if(pk==='mechanical'){o.type='square';freq*=0.5;g.gain.setValueAtTime(.04,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.055);}
-    else if(pk==='click'){o.type='triangle';freq*=1.4;g.gain.setValueAtTime(.07,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.06);}
-    else{o.type=t==='eq'?'triangle':'sine';g.gain.setValueAtTime(.06,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.1);}
-    o.frequency.value=freq;
-    o.start();o.stop(c.currentTime+.12);
+    var a=_loadAudio(file);
+    var clone=a.cloneNode();
+    clone.volume=0.55;
+    clone.play().catch(function(){});
   }catch(e){}
 }
 function vibe(ms){if(!cfg.haptics)return;try{navigator.vibrate&&navigator.vibrate(ms||8);}catch(e){}}
@@ -2684,7 +2699,7 @@ init();
 buildCalc();
 applyCalcMode(cfg.calcMode||'standard');
 // Restore sound pack UI
-(function(){var pk=cfg.soundPack||'soft';document.querySelectorAll('.spack').forEach(function(x){x.classList.toggle('sel',x.dataset.pack===pk);});})();
+(function(){var pk=cfg.soundPack||'pop';document.querySelectorAll('.spack').forEach(function(x){x.classList.toggle('sel',x.dataset.pack===pk);});})();
 // Restore color theme UI
 (function(){var ct=cfg.colorTheme||'default';document.querySelectorAll('.theme-sw').forEach(function(x){x.classList.toggle('sel',x.dataset.ctheme===ct);});})();
 render();
