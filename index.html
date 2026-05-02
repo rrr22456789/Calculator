@@ -33,7 +33,7 @@
   --acc:#0a84ff;--red:#ff453a;--grn:#30d158;--ov:rgba(0,0,0,.65);
   --le-bg:#181818;--le-cell:rgba(255,255,255,.045);--le-celld:1.5px dashed rgba(255,255,255,.12);
 }
-html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition:background .3s;margin:0}
+html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition:background .4s ease;margin:0}
 /* Phone shell — full screen on mobile, centered on wide desktop */
 .phone-wrap{
   width:100vw;height:100vh;height:100dvh;
@@ -54,18 +54,21 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
   transition:background .3s;
 }
 .toggle-wrap{position:absolute;top:16px;left:16px;z-index:10}
-.tog{width:64px;height:32px;border-radius:16px;background:var(--ttrack);cursor:pointer;position:relative;border:none;outline:none;padding:0;transition:background .3s;box-shadow:inset 0 2px 5px rgba(0,0,0,.28)}
-.tog::before{content:"☀️";position:absolute;left:7px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
-.tog::after{content:"🌙";position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
-.tog-ball{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:var(--tball);box-shadow:0 2px 6px var(--tbsh);transition:transform .28s cubic-bezier(.34,1.4,.64,1);pointer-events:none}
-[data-theme="dark"] .tog-ball{transform:translateX(32px)}
-.sBtn{position:absolute;top:16px;right:16px;z-index:10;width:32px;height:32px;border-radius:50%;background:linear-gradient(155deg,var(--face-hi),var(--face),var(--face-lo));box-shadow:0 3px 0 var(--sh-d),0 5px 10px rgba(0,0,0,.18),inset 0 1px 0 var(--sh-u);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;outline:none}
-.sBtn:active{transform:translateY(2px)}
+.tog{width:64px;height:32px;border-radius:16px;background:var(--ttrack);cursor:pointer;position:relative;border:none;outline:none;padding:0;transition:background .38s ease;box-shadow:inset 0 2px 5px rgba(0,0,0,.28)}
+.tog::before{content:"☀️";position:absolute;left:7px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;transition:opacity .3s ease}
+.tog::after{content:"🌙";position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;transition:opacity .3s ease}
+.tog-ball{position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:var(--tball);box-shadow:0 2px 6px var(--tbsh);transition:transform .38s cubic-bezier(.34,1.32,.64,1),background .38s ease,box-shadow .38s ease;pointer-events:none}
+[data-theme="dark"] .tog-ball,
+[data-theme="cherry"] .tog-ball,
+[data-theme="rosegold-dark"] .tog-ball,
+[data-theme="violet"] .tog-ball{transform:translateX(32px)}
+.sBtn{position:absolute;top:13px;right:12px;z-index:10;width:38px;height:38px;border-radius:12px;background:linear-gradient(155deg,var(--face-hi),var(--face),var(--face-lo));box-shadow:0 3px 0 var(--sh-d),0 6px 12px rgba(0,0,0,.18),inset 0 1px 0 var(--sh-u);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;outline:none;transition:transform .15s ease,background .35s ease}
+.sBtn:active{transform:translateY(2px) scale(.94)}
 .disp{display:flex;flex-direction:column;padding:0 16px 10px;overflow:hidden;min-height:0;position:relative;justify-content:flex-end}
 /* tape removed */
 .num-wrap{display:flex;flex-direction:column;align-items:flex-end;justify-content:flex-end;flex-shrink:0;padding:8px 0 6px;gap:0;width:100%}
 .tot-lbl{font-size:clamp(9px,2.8vw,12px);color:var(--ink-faint);letter-spacing:.14em;text-transform:uppercase}
-.num{font-family:'Nunito',sans-serif;font-weight:900;line-height:1;letter-spacing:-.02em;text-align:center;white-space:nowrap;user-select:none;background:var(--numg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:font-size .12s ease}
+.num{font-family:'Nunito',sans-serif;font-weight:900;line-height:1;letter-spacing:-.02em;text-align:center;white-space:nowrap;user-select:none;background:var(--numg);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;transition:font-size .22s ease}
 .live-expr-wrap{
   display:flex;flex-direction:column;align-items:flex-end;
   padding:0 4px;width:100%;
@@ -93,7 +96,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
   max-width:100%;text-align:right;
   opacity:0;
-  transition:opacity .08s ease;  /* near-instant */
+  transition:opacity .18s ease;  /* smooth */
   line-height:1.2;
 }
 .live-expr-result.show{opacity:1}
@@ -117,7 +120,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
   .btn-grid{grid-auto-rows:clamp(38px,11vw,52px);gap:4px}
   .btn-area{padding:4px 8px env(safe-area-inset-bottom,8px)}
 }
-.btn{border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;outline:none;user-select:none;border-radius:22px;transition:box-shadow 70ms,transform 70ms,background .3s;touch-action:manipulation;font-family:'DM Sans',system-ui;-webkit-user-select:none}
+.btn{border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;outline:none;user-select:none;border-radius:22px;transition:box-shadow .15s ease,transform .15s ease,background .35s ease;touch-action:manipulation;font-family:'DM Sans',system-ui;-webkit-user-select:none}
 .b-dig{font-size:clamp(18px,7.4vw,32px);font-weight:700;color:var(--ink);border-radius:18px;background:linear-gradient(155deg,var(--face-hi),var(--face),var(--face-lo));box-shadow:0 5px 0 var(--sh-d),0 7px 14px rgba(0,0,0,.22),inset 0 1px 0 var(--sh-u)}
 .b-dig.dn{transform:translateY(4px);background:linear-gradient(155deg,var(--face-lo),var(--face));box-shadow:0 1px 0 var(--sh-d),inset 0 2px 6px rgba(0,0,0,.2)}
 /* b-act: radius set dynamically via JS based on cs */
@@ -280,7 +283,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 .s-ico{width:52px;height:52px;border-radius:13px;flex-shrink:0;background:linear-gradient(135deg,var(--pbg1),var(--pbg2));display:flex;align-items:center;justify-content:center;font-family:'Nunito',sans-serif;font-weight:900;font-size:20px;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.25)}
 .s-lbl{font-size:clamp(9px,3vw,12px);color:var(--ink-dim);letter-spacing:.1em;text-transform:uppercase;padding:0 20px 6px;font-family:'DM Sans',sans-serif}
 .s-box{margin:0 16px 12px;background:var(--ssec);border-radius:16px;overflow:hidden}
-.s-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--sbrd);cursor:pointer;transition:background .15s}
+.s-row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--sbrd);cursor:pointer;transition:background .25s ease}
 .s-row:last-child{border-bottom:none}
 .s-row:active{background:var(--shov)}
 .s-row.nt{cursor:default}.s-row.nt:active{background:transparent}
@@ -288,12 +291,12 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 .s-rl{flex:1;font-size:clamp(13px,4.2vw,17px);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:500}
 .s-rv{font-size:clamp(12px,4vw,16px);color:var(--ink-dim);font-family:'DM Sans',sans-serif}
 .s-ra{color:var(--ink-faint);font-size:clamp(12px,4vw,16px);margin-left:2px}
-.s-tog{width:50px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:var(--ink-faint);transition:background .25s;flex-shrink:0;box-shadow:inset 0 1px 4px rgba(0,0,0,.25)}
+.s-tog{width:50px;height:28px;border-radius:14px;border:none;cursor:pointer;position:relative;background:var(--ink-faint);transition:background .32s ease;flex-shrink:0;box-shadow:inset 0 1px 4px rgba(0,0,0,.25)}
 .s-tog.on{background:var(--grn)}
-.s-tog::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:transform .25s cubic-bezier(.34,1.4,.64,1)}
+.s-tog::after{content:'';position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3);transition:transform .32s cubic-bezier(.34,1.32,.64,1)}
 .s-tog.on::after{transform:translateX(22px)}
 .s-seg{display:flex;background:var(--face-lo);border-radius:10px;padding:2px;gap:2px;width:100%}
-.s-so{flex:1;padding:8px 4px;text-align:center;border-radius:8px;cursor:pointer;font-size:clamp(12px,4.5vw,16px);font-weight:600;color:var(--ink-dim);border:none;background:transparent;font-family:'DM Sans',sans-serif;line-height:1;transition:background .15s,color .15s,box-shadow .15s}
+.s-so{flex:1;padding:8px 4px;text-align:center;border-radius:8px;cursor:pointer;font-size:clamp(12px,4.5vw,16px);font-weight:600;color:var(--ink-dim);border:none;background:transparent;font-family:'DM Sans',sans-serif;line-height:1;transition:background .25s ease,color .25s ease,box-shadow .25s ease}
 .s-so.sel{background:var(--face-hi);color:var(--ink);box-shadow:0 1px 6px rgba(0,0,0,.2)}
 .s-dng{width:calc(100% - 32px);margin:8px 16px;padding:14px;border-radius:12px;background:rgba(255,59,48,.1);border:1px solid rgba(255,59,48,.25);color:var(--red);font-size:clamp(13px,4.2vw,17px);font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;text-align:center;display:block;transition:background .15s}
 .s-dng:active{background:rgba(255,59,48,.22)}
@@ -473,16 +476,16 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
 
 /* ── EXTRA THEMES ── */
-[data-theme="midnight"]{
-  --bg:#0b0f2c;--face:#131830;--face-hi:#1c2240;--face-lo:#080b1c;
-  --sh-d:#020410;--sh-u:rgba(120,160,255,.07);--ink:#dce4ff;--ink-dim:#6070a8;--ink-faint:#252e60;
-  --pbg1:#4a6ef5;--pbg2:#2342d4;--psh:#1030a0;--pink:#fff;
-  --ebg1:#4050a0;--ebg2:#283080;--esh:#0010a0;--eink:#fff;
-  --numg:linear-gradient(160deg,#c0ccff 0%,#8090dd 40%,#4050a8 100%);
-  --tc:#303870;--ttrack:#181e50;--tball:#c0ccff;--tbsh:rgba(0,0,30,.8);
-  --sbg:#0e1236;--ssec:#18204a;--sbrd:rgba(100,130,255,.1);--shov:#202a5a;
-  --acc:#6888ff;--red:#ff5555;--grn:#40e078;--ov:rgba(0,0,30,.75);
-  --le-bg:#0b0f2c;--le-cell:rgba(100,140,255,.05);--le-celld:1.5px dashed rgba(100,140,255,.2);
+[data-theme="cherry"]{
+  --bg:#1a0508;--face:#240c10;--face-hi:#301418;--face-lo:#100306;
+  --sh-d:#050102;--sh-u:rgba(255,100,120,.06);--ink:#ffe8ec;--ink-dim:#b06070;--ink-faint:#5a2030;
+  --pbg1:#cc2840;--pbg2:#a01830;--psh:#6a0818;--pink:#fff;
+  --ebg1:#b82038;--ebg2:#901028;--esh:#4a0010;--eink:#fff;
+  --numg:linear-gradient(160deg,#ffb8c0 0%,#e04060 40%,#a01830 100%);
+  --tc:#6a2030;--ttrack:#3a1018;--tball:#ffe8ec;--tbsh:rgba(0,0,0,.65);
+  --sbg:#1e0810;--ssec:#2c1018;--sbrd:rgba(255,100,120,.08);--shov:#381418;
+  --acc:#e83050;--red:#ff4444;--grn:#40c068;--ov:rgba(20,0,5,.72);
+  --le-bg:#1a0508;--le-cell:rgba(255,80,100,.05);--le-celld:1.5px dashed rgba(255,80,100,.18);
 }
 [data-theme="rosegold"]{
   --bg:#f8eeea;--face:#fef6f3;--face-hi:#fffaf8;--face-lo:#ecdfda;
@@ -495,16 +498,49 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
   --acc:#c8685a;--red:#dd4444;--grn:#58b878;--ov:rgba(80,20,10,.38);
   --le-bg:#f8eeea;--le-cell:rgba(200,100,80,.06);--le-celld:1.5px dashed rgba(200,100,80,.2);
 }
-[data-theme="forest"]{
-  --bg:#0e1f12;--face:#16281a;--face-hi:#1e3022;--face-lo:#0a180c;
-  --sh-d:#030a04;--sh-u:rgba(100,220,80,.06);--ink:#c8ecca;--ink-dim:#5a8860;--ink-faint:#28402a;
-  --pbg1:#488a40;--pbg2:#28601e;--psh:#103810;--pink:#fff;
-  --ebg1:#508a48;--ebg2:#306828;--esh:#001808;--eink:#fff;
-  --numg:linear-gradient(160deg,#c0e8a8 0%,#78b860 40%,#408840 100%);
-  --tc:#2e5828;--ttrack:#183018;--tball:#c8ecca;--tbsh:rgba(0,20,0,.7);
-  --sbg:#101e14;--ssec:#182c1a;--sbrd:rgba(100,210,80,.1);--shov:#223c24;
-  --acc:#66c058;--red:#e05050;--grn:#66c058;--ov:rgba(0,20,0,.72);
-  --le-bg:#0e1f12;--le-cell:rgba(100,210,80,.05);--le-celld:1.5px dashed rgba(100,210,80,.2);
+[data-theme="violet"]{
+  --bg:#1a0b20;--face:#250e2e;--face-hi:#30143a;--face-lo:#120618;
+  --sh-d:#060208;--sh-u:rgba(165,106,189,.07);--ink:#f5ebfa;--ink-dim:#a56abd;--ink-faint:#492258;
+  --pbg1:#6e3482;--pbg2:#492258;--psh:#2a0e38;--pink:#fff;
+  --ebg1:#7a4090;--ebg2:#5a2870;--esh:#300848;--eink:#fff;
+  --numg:linear-gradient(160deg,#e7dbef 0%,#a56abd 40%,#6e3482 100%);
+  --tc:#492258;--ttrack:#2a0e38;--tball:#e7dbef;--tbsh:rgba(0,0,0,.7);
+  --sbg:#1e0e28;--ssec:#2c1438;--sbrd:rgba(165,106,189,.1);--shov:#381a48;
+  --acc:#a56abd;--red:#ff4466;--grn:#40c068;--ov:rgba(20,0,30,.75);
+  --le-bg:#1a0b20;--le-cell:rgba(165,106,189,.05);--le-celld:1.5px dashed rgba(165,106,189,.2);
+}
+[data-theme="cherry-light"]{
+  --bg:#fff0f1;--face:#fff5f6;--face-hi:#ffffff;--face-lo:#ffdde0;
+  --sh-d:#e0b8bc;--sh-u:rgba(255,255,255,.92);--ink:#2a0810;--ink-dim:#b04060;--ink-faint:#f0bcc4;
+  --pbg1:#cc2840;--pbg2:#a01830;--psh:#701020;--pink:#fff;
+  --ebg1:#d44060;--ebg2:#b02848;--esh:#780820;--eink:#fff;
+  --numg:linear-gradient(160deg,#a01830 0%,#2a0810 40%,#180409 100%);
+  --tc:#d08090;--ttrack:#ffd8dc;--tball:#2a0810;--tbsh:rgba(0,0,0,.22);
+  --sbg:#fff8f9;--ssec:#fff0f1;--sbrd:rgba(200,60,80,.1);--shov:#ffdde0;
+  --acc:#c82040;--red:#dd1030;--grn:#2a9e50;--ov:rgba(60,0,20,.32);
+  --le-bg:#fff0f1;--le-cell:rgba(200,40,60,.06);--le-celld:1.5px dashed rgba(200,40,60,.2);
+}
+[data-theme="rosegold-dark"]{
+  --bg:#1e0e0c;--face:#2a1412;--face-hi:#381c1a;--face-lo:#130a08;
+  --sh-d:#080302;--sh-u:rgba(255,180,160,.06);--ink:#ffddd8;--ink-dim:#a06858;--ink-faint:#502820;
+  --pbg1:#c8685a;--pbg2:#a84838;--psh:#6c2010;--pink:#fff;
+  --ebg1:#a05048;--ebg2:#803830;--esh:#400808;--eink:#fff;
+  --numg:linear-gradient(160deg,#ffc0b8 0%,#e07060 40%,#a84838 100%);
+  --tc:#6a3028;--ttrack:#3a1810;--tball:#ffddd8;--tbsh:rgba(0,0,0,.6);
+  --sbg:#221210;--ssec:#301816;--sbrd:rgba(255,150,120,.08);--shov:#3c201e;
+  --acc:#e07060;--red:#ff5555;--grn:#40c068;--ov:rgba(30,0,0,.7);
+  --le-bg:#1e0e0c;--le-cell:rgba(255,120,80,.05);--le-celld:1.5px dashed rgba(255,120,80,.18);
+}
+[data-theme="violet-light"]{
+  --bg:#f5ebfa;--face:#faf4fd;--face-hi:#ffffff;--face-lo:#e7dbef;
+  --sh-d:#c8b4d8;--sh-u:rgba(255,255,255,.92);--ink:#1a0b20;--ink-dim:#6e3482;--ink-faint:#d4c4e4;
+  --pbg1:#6e3482;--pbg2:#492258;--psh:#2e0a40;--pink:#fff;
+  --ebg1:#7a4090;--ebg2:#5a2870;--esh:#300848;--eink:#fff;
+  --numg:linear-gradient(160deg,#492258 0%,#1a0b20 40%,#0e0614 100%);
+  --tc:#c0a0d0;--ttrack:#e7dbef;--tball:#1a0b20;--tbsh:rgba(0,0,0,.22);
+  --sbg:#fdf8ff;--ssec:#f5ebfa;--sbrd:rgba(110,52,130,.1);--shov:#e7dbef;
+  --acc:#6e3482;--red:#c82040;--grn:#2a9e50;--ov:rgba(40,0,60,.3);
+  --le-bg:#f5ebfa;--le-cell:rgba(110,52,130,.06);--le-celld:1.5px dashed rgba(110,52,130,.2);
 }
 
 /* ── FONT VARIANTS ── */
@@ -513,9 +549,9 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 [data-font="minimal"] .btn{font-family:system-ui,-apple-system,sans-serif;font-weight:400;letter-spacing:.01em}
 
 /* ── MODE BUTTON ── */
-.modeBtn{position:absolute;top:16px;right:58px;z-index:10;width:32px;height:32px;border-radius:50%;background:linear-gradient(155deg,var(--face-hi),var(--face),var(--face-lo));box-shadow:0 3px 0 var(--sh-d),0 5px 10px rgba(0,0,0,.18),inset 0 1px 0 var(--sh-u);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:15px;outline:none}
-.modeBtn:active{transform:translateY(2px)}
-.modeBtn.active{background:linear-gradient(135deg,var(--acc),var(--pbg2));color:#fff;box-shadow:0 3px 0 var(--psh),0 5px 14px rgba(0,0,0,.28)}
+.modeBtn{position:absolute;top:13px;right:58px;z-index:10;width:38px;height:38px;border-radius:12px;background:linear-gradient(155deg,var(--face-hi),var(--face),var(--face-lo));box-shadow:0 3px 0 var(--sh-d),0 6px 12px rgba(0,0,0,.18),inset 0 1px 0 var(--sh-u);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;outline:none;transition:transform .15s ease,background .35s ease,box-shadow .3s ease;color:var(--ink-dim)}
+.modeBtn:active{transform:translateY(2px) scale(.94)}
+.modeBtn.active{background:linear-gradient(135deg,var(--acc),var(--pbg2));color:#fff;box-shadow:0 3px 0 var(--psh),0 6px 16px rgba(0,0,0,.3)}
 
 /* ── MODE PICKER PANEL ── */
 .mode-ov{position:fixed;inset:0;z-index:800;background:var(--ov);opacity:0;pointer-events:none;transition:opacity .3s}
@@ -526,14 +562,21 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 .mode-grab{width:36px;height:5px;background:var(--ink-faint);border-radius:3px;position:absolute;top:8px;left:50%;transform:translateX(-50%)}
 .mode-sh-ttl{flex:1;text-align:center;font-size:clamp(15px,4.8vw,18px);font-weight:700;color:var(--ink);font-family:'DM Sans',sans-serif}
 .mode-sh-cls{background:none;border:none;color:var(--ink-dim);font-size:20px;cursor:pointer;padding:4px 8px}
-.mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px 16px 20px}
-.mode-item{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;padding:10px 4px;border-radius:16px;transition:background .15s;border:2px solid transparent}
-.mode-item:active{background:var(--shov)}
+.mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:16px 14px 22px}
+.mode-item{display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;padding:12px 6px 10px;border-radius:18px;transition:background .25s ease,transform .15s ease;border:2px solid transparent}
+.mode-item:active{background:var(--shov);transform:scale(.96)}
 .mode-item.sel{background:rgba(0,122,255,.08);border-color:var(--acc)}
-.mode-ico{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;background:linear-gradient(135deg,var(--face-hi),var(--face-lo));box-shadow:0 3px 0 var(--sh-d),0 4px 10px rgba(0,0,0,.18)}
-.mode-item.sel .mode-ico{background:linear-gradient(135deg,var(--acc),var(--pbg2))}
-.mode-lbl{font-size:clamp(9px,3vw,12px);color:var(--ink-dim);font-family:'DM Sans',sans-serif;font-weight:600;text-align:center;line-height:1.2}
-.mode-item.sel .mode-lbl{color:var(--acc)}
+.mode-ico{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 3px 0 rgba(0,0,0,.22),0 5px 12px rgba(0,0,0,.2);transition:transform .2s ease,box-shadow .2s ease}
+.mode-item.sel .mode-ico{box-shadow:0 3px 0 var(--psh),0 5px 14px rgba(0,0,0,.3);transform:scale(1.06)}
+.mode-ico-std {background:linear-gradient(140deg,#5aa0ff,#1a6ef0)}
+.mode-ico-sci {background:linear-gradient(140deg,#ffb340,#e07800)}
+.mode-ico-prog{background:linear-gradient(140deg,#7c7af7,#4644c2)}
+.mode-ico-unit{background:linear-gradient(140deg,#3dd6f5,#0da8d0)}
+.mode-ico-gst {background:linear-gradient(140deg,#4cd96a,#1daa40)}
+.mode-ico-emi {background:linear-gradient(140deg,#ff9500,#d46200)}
+.mode-ico-split{background:linear-gradient(140deg,#ff6259,#d42e25)}
+.mode-lbl{font-size:clamp(10px,3.2vw,13px);color:var(--ink-dim);font-family:'DM Sans',sans-serif;font-weight:600;text-align:center;line-height:1.2;margin-top:2px}
+.mode-item.sel .mode-lbl{color:var(--acc);font-weight:700}
 
 /* ── SCIENTIFIC ROW ── */
 .sci-row{display:none;grid-template-columns:repeat(6,1fr);gap:5px;padding:0 12px 5px;width:100%}
@@ -579,9 +622,26 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 .tool-dir-btn{display:block;margin:8px auto;background:none;border:1.5px solid var(--sbrd);border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:18px;color:var(--acc);display:flex;align-items:center;justify-content:center}
 .tool-dir-btn:active{background:var(--shov)}
 
+/* ── UNIT CONVERTER v2 ── */
+#unitCatStrip::-webkit-scrollbar{display:none}
+.unit-cat-btn{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1.5px solid var(--sbrd);background:var(--ssec);color:var(--ink-dim);font-size:clamp(11px,3.4vw,13px);font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .25s ease,color .25s ease,border-color .25s ease}
+.unit-cat-btn.sel{background:var(--acc);color:#fff;border-color:var(--acc)}
+.unit-dd{position:relative;width:100%;user-select:none;-webkit-user-select:none}
+.unit-dd-btn{display:flex;align-items:center;justify-content:space-between;width:100%;background:var(--ssec);border:1.5px solid var(--sbrd);border-radius:14px;padding:12px 16px;font-size:clamp(14px,4.5vw,17px);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;box-sizing:border-box;transition:border-color .25s ease}
+.unit-dd-btn.open{border-color:var(--acc);border-radius:14px 14px 0 0}
+.unit-dd-arrow{font-size:12px;color:var(--ink-dim);transition:transform .28s ease;flex-shrink:0;margin-left:8px}
+.unit-dd-btn.open .unit-dd-arrow{transform:rotate(180deg)}
+.unit-dd-list{display:none;position:absolute;top:100%;left:0;right:0;background:var(--face);border:1.5px solid var(--acc);border-top:none;border-radius:0 0 14px 14px;z-index:200;max-height:220px;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.unit-dd-list::-webkit-scrollbar{display:none}
+.unit-dd-list.open{display:block}
+.unit-dd-item{padding:11px 16px;font-size:clamp(13px,4.2vw,16px);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;border-bottom:1px solid var(--sbrd);transition:background .2s ease}
+.unit-dd-item:last-child{border-bottom:none;border-radius:0 0 12px 12px}
+.unit-dd-item:active{background:var(--face-hi)}
+.unit-dd-item.sel{color:var(--acc);font-weight:700;background:var(--face-hi)}
+
 /* ── COLOUR THEME SWATCHES ── */
 .theme-swatches{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 16px}
-.theme-sw{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;padding:8px;border-radius:14px;border:2px solid transparent;transition:border-color .15s}
+.theme-sw{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;padding:8px;border-radius:14px;border:2px solid transparent;transition:border-color .28s ease,transform .2s ease}
 .theme-sw.sel{border-color:var(--acc)}
 .theme-sw-dot{width:40px;height:40px;border-radius:50%;box-shadow:0 3px 8px rgba(0,0,0,.25)}
 .theme-sw-nm{font-size:clamp(10px,3.2vw,13px);color:var(--ink-dim);font-family:'DM Sans',sans-serif;font-weight:600;text-align:center}
@@ -589,7 +649,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 
 /* ── SOUND PACK SEG ── */
 .s-sound-packs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px 16px}
-.spack{display:flex;flex-direction:column;gap:3px;background:var(--ssec);border-radius:14px;padding:12px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
+.spack{display:flex;flex-direction:column;gap:3px;background:var(--ssec);border-radius:14px;padding:12px;cursor:pointer;border:2px solid transparent;transition:border-color .28s ease}
 .spack.sel{border-color:var(--acc)}
 .spack-ico{font-size:20px;line-height:1}
 .spack-nm{font-size:clamp(12px,3.8vw,15px);color:var(--ink);font-family:'DM Sans',sans-serif;font-weight:700}
@@ -597,7 +657,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 
 /* ── FONT PICKER ── */
 .s-fonts{display:flex;flex-direction:column;gap:8px;padding:12px 16px}
-.sfont{display:flex;align-items:center;gap:14px;background:var(--ssec);border-radius:14px;padding:12px 16px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
+.sfont{display:flex;align-items:center;gap:14px;background:var(--ssec);border-radius:14px;padding:12px 16px;cursor:pointer;border:2px solid transparent;transition:border-color .28s ease}
 .sfont.sel{border-color:var(--acc)}
 .sfont-nm{font-size:clamp(15px,5vw,20px);font-weight:700;color:var(--ink);flex:1}
 .sfont-nm.rounded{font-family:'Nunito',sans-serif}
@@ -608,16 +668,25 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 </style>
 
 <script>
-// Apply theme BEFORE page renders to prevent black flash
+// Apply theme BEFORE page renders to prevent flash
 (function(){
   try{
     var c=JSON.parse(localStorage.getItem('calcpx4')||'{}');
     var t=c.theme||'light';
+    var ct=c.colorTheme||'default';
     var mq=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)');
     var dark=t==='dark'||(t==='system'&&mq&&mq.matches);
-    document.documentElement.setAttribute('data-theme',dark?'dark':'light');
-    document.documentElement.style.background=dark?'#181818':'#dedad6';
-    document.body&&(document.body.style.background=dark?'#181818':'#dedad6');
+    var themeAttr;
+    if(ct==='default')       themeAttr=dark?'dark':'light';
+    else if(ct==='cherry')   themeAttr=dark?'cherry':'cherry-light';
+    else if(ct==='rosegold') themeAttr=dark?'rosegold-dark':'rosegold';
+    else if(ct==='violet')   themeAttr=dark?'violet':'violet-light';
+    else                     themeAttr=ct;
+    var bgMap={'light':'#dedad6','dark':'#181818','cherry':'#1a0508','cherry-light':'#fff0f1','rosegold':'#f8eeea','rosegold-dark':'#1e0e0c','violet':'#1a0b20','violet-light':'#f5ebfa'};
+    var bg=bgMap[themeAttr]||'#dedad6';
+    document.documentElement.setAttribute('data-theme',themeAttr);
+    document.documentElement.style.background=bg;
+    document.body&&(document.body.style.background=bg);
   }catch(e){}
 })();
 </script>
@@ -626,7 +695,7 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
 <div class="phone-wrap"><div class="phone">
   <div class="disp" id="disp">
     <div class="toggle-wrap"><button class="tog" id="tog"><span class="tog-ball"></span></button></div>
-    <button class="modeBtn" id="modeBtn" title="Mode">⊞</button><button class="sBtn" id="settingsBtn">⚙</button>
+    <button class="modeBtn" id="modeBtn" title="Mode"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="7" height="7" rx="2" fill="currentColor"/><rect x="9" y="0" width="7" height="7" rx="2" fill="currentColor"/><rect x="0" y="9" width="7" height="7" rx="2" fill="currentColor"/><rect x="9" y="9" width="7" height="7" rx="2" fill="currentColor"/></svg></button><button class="sBtn" id="settingsBtn">⚙️</button>
     <span class="mem-b" id="memB">M</span>
     <button class="hist-btn" id="histBtn" aria-label="History">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -734,9 +803,9 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
           <div class="s-lbl">Colour Theme</div>
           <div class="theme-swatches" id="colorThemeSwatches">
             <div class="theme-sw sel" data-ctheme="default"><div class="theme-sw-dot" style="background:linear-gradient(135deg,#dedad6,#aaa6a2)"></div><div class="theme-sw-nm">Default</div></div>
-            <div class="theme-sw" data-ctheme="midnight"><div class="theme-sw-dot" style="background:linear-gradient(135deg,#0b0f2c,#4a6ef5)"></div><div class="theme-sw-nm">Midnight</div></div>
+            <div class="theme-sw" data-ctheme="cherry"><div class="theme-sw-dot" style="background:linear-gradient(135deg,#1a0508,#e83050)"></div><div class="theme-sw-nm">🍒 Cherry</div></div>
             <div class="theme-sw" data-ctheme="rosegold"><div class="theme-sw-dot" style="background:linear-gradient(135deg,#f8eeea,#c8685a)"></div><div class="theme-sw-nm">Rose Gold</div></div>
-            <div class="theme-sw" data-ctheme="forest"><div class="theme-sw-dot" style="background:linear-gradient(135deg,#0e1f12,#488a40)"></div><div class="theme-sw-nm">Forest</div></div>
+            <div class="theme-sw" data-ctheme="violet"><div class="theme-sw-dot" style="background:linear-gradient(135deg,#492258,#a56abd)"></div><div class="theme-sw-nm">💜 Violet</div></div>
           </div>
           <div class="s-lbl">Button Font</div>
           <div class="s-fonts" id="fontPicker">
@@ -818,13 +887,13 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
       <button class="mode-sh-cls" id="modeClose">✕</button>
     </div>
     <div class="mode-grid">
-      <div class="mode-item" data-mode="standard"><div class="mode-ico">🔢</div><div class="mode-lbl">Standard</div></div>
-      <div class="mode-item" data-mode="scientific"><div class="mode-ico">📐</div><div class="mode-lbl">Scientific</div></div>
-      <div class="mode-item" data-mode="programmer"><div class="mode-ico">💻</div><div class="mode-lbl">Programmer</div></div>
-      <div class="mode-item" data-mode="unit"><div class="mode-ico">📏</div><div class="mode-lbl">Units</div></div>
-      <div class="mode-item" data-mode="gst"><div class="mode-ico">🧾</div><div class="mode-lbl">GST / Tax</div></div>
-      <div class="mode-item" data-mode="emi"><div class="mode-ico">🏦</div><div class="mode-lbl">EMI Calc</div></div>
-      <div class="mode-item" data-mode="split"><div class="mode-ico">🍕</div><div class="mode-lbl">Split Bill</div></div>
+      <div class="mode-item" data-mode="standard"><div class="mode-ico mode-ico-std">🔢</div><div class="mode-lbl">Standard</div></div>
+      <div class="mode-item" data-mode="scientific"><div class="mode-ico mode-ico-sci">🔭</div><div class="mode-lbl">Scientific</div></div>
+      <div class="mode-item" data-mode="programmer"><div class="mode-ico mode-ico-prog">💻</div><div class="mode-lbl">Programmer</div></div>
+      <div class="mode-item" data-mode="unit"><div class="mode-ico mode-ico-unit">⚖️</div><div class="mode-lbl">Units</div></div>
+      <div class="mode-item" data-mode="gst"><div class="mode-ico mode-ico-gst">🧾</div><div class="mode-lbl">GST / Tax</div></div>
+      <div class="mode-item" data-mode="emi"><div class="mode-ico mode-ico-emi">🏦</div><div class="mode-lbl">EMI Calc</div></div>
+      <div class="mode-item" data-mode="split"><div class="mode-ico mode-ico-split">🍕</div><div class="mode-lbl">Split Bill</div></div>
     </div>
   </div>
 </div>
@@ -836,16 +905,40 @@ html,body{height:100%;width:100%;overflow:hidden;background:var(--bg);transition
     <span class="tool-ttl">Unit Converter</span>
   </div>
   <div class="tool-body">
-    <div class="tool-seg" id="unitCatSeg">
-      <button class="tool-seg-btn sel" data-cat="weight">⚖️ Weight</button>
-      <button class="tool-seg-btn" data-cat="length">📏 Length</button>
-      <button class="tool-seg-btn" data-cat="temp">🌡 Temp</button>
+    <!-- Category strip -->
+    <div id="unitCatStrip" style="display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;-webkit-overflow-scrolling:touch;scrollbar-width:none">
+      <button class="unit-cat-btn sel" data-ucat="length">📏 Length</button>
+      <button class="unit-cat-btn" data-ucat="weight">⚖️ Weight</button>
+      <button class="unit-cat-btn" data-ucat="temp">🌡 Temp</button>
+      <button class="unit-cat-btn" data-ucat="area">⬜ Area</button>
+      <button class="unit-cat-btn" data-ucat="volume">🧪 Volume</button>
+      <button class="unit-cat-btn" data-ucat="speed">💨 Speed</button>
+      <button class="unit-cat-btn" data-ucat="time">⏱ Time</button>
+      <button class="unit-cat-btn" data-ucat="data">💾 Data</button>
+      <button class="unit-cat-btn" data-ucat="energy">⚡ Energy</button>
+      <button class="unit-cat-btn" data-ucat="pressure">🔵 Pressure</button>
+      <button class="unit-cat-btn" data-ucat="angle">📐 Angle</button>
+      <button class="unit-cat-btn" data-ucat="fuel">⛽ Fuel</button>
     </div>
-    <div class="tool-field"><div class="tool-lbl" id="unitFromLbl">Kilograms (kg)</div><input class="tool-inp" id="unitInput" type="number" inputmode="decimal" placeholder="0"/></div>
-    <button class="tool-dir-btn" id="unitFlipBtn">⇅</button>
-    <div class="tool-field" style="margin-top:4px"><div class="tool-lbl" id="unitToLbl">Pounds (lb)</div><div class="tool-inp" id="unitOutput" style="background:var(--le-cell);color:var(--acc)">—</div></div>
-    <button class="tool-calc-btn" id="unitCalcBtn">Convert</button>
-    <button class="tool-use-btn" id="unitUseBtn">Use result in calculator</button>
+    <!-- From dropdown -->
+    <div class="tool-lbl" style="margin-bottom:6px">From</div>
+    <div class="unit-dd" id="unitFromDD">
+      <div class="unit-dd-btn" id="unitFromBtn"><span id="unitFromLabel">—</span><span class="unit-dd-arrow">▾</span></div>
+      <div class="unit-dd-list" id="unitFromList"></div>
+    </div>
+    <!-- Value input -->
+    <input class="tool-inp" id="unitInput" type="number" inputmode="decimal" placeholder="0" style="margin-top:12px"/>
+    <!-- Flip button -->
+    <button class="tool-dir-btn" id="unitFlipBtn" style="display:flex">⇅</button>
+    <!-- To dropdown -->
+    <div class="tool-lbl" style="margin-bottom:6px">To</div>
+    <div class="unit-dd" id="unitToDD">
+      <div class="unit-dd-btn" id="unitToBtn"><span id="unitToLabel">—</span><span class="unit-dd-arrow">▾</span></div>
+      <div class="unit-dd-list" id="unitToList"></div>
+    </div>
+    <!-- Result -->
+    <div id="unitOutput" style="margin-top:16px;background:var(--ssec);border-radius:14px;padding:14px 16px;font-size:clamp(20px,6vw,28px);font-weight:700;color:var(--acc);font-family:'DM Sans',sans-serif;min-height:54px;display:flex;align-items:center;word-break:break-all">—</div>
+    <button class="tool-use-btn" id="unitUseBtn" style="margin-top:10px">Use result in calculator</button>
   </div>
 </div>
 
@@ -1033,16 +1126,21 @@ var mq=window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)');
 function applyTheme(t){
   cfg.theme=t;saveCfg();
   var dark=t==='dark'||(t==='system'&&mq&&mq.matches);
-  var base=dark?'dark':'light';
   var ct=cfg.colorTheme||'default';
-  if(ct==='default'){
-    document.documentElement.setAttribute('data-theme',base);
-  } else {
-    document.documentElement.setAttribute('data-theme',ct);
-  }
-  var bgMap={light:'#dedad6',dark:'#181818',midnight:'#0b0f2c',rosegold:'#f8eeea',forest:'#0e1f12'};
-  var curT=ct==='default'?base:ct;
-  document.getElementById('theme-meta').content=bgMap[curT]||'#dedad6';
+  var themeAttr;
+  if(ct==='default')       themeAttr=dark?'dark':'light';
+  else if(ct==='cherry')   themeAttr=dark?'cherry':'cherry-light';
+  else if(ct==='rosegold') themeAttr=dark?'rosegold-dark':'rosegold';
+  else if(ct==='violet')   themeAttr=dark?'violet':'violet-light';
+  else                     themeAttr=ct;
+  document.documentElement.setAttribute('data-theme',themeAttr);
+  var bgMap={
+    'light':'#dedad6','dark':'#181818',
+    'cherry':'#1a0508','cherry-light':'#fff0f1',
+    'rosegold':'#f8eeea','rosegold-dark':'#1e0e0c',
+    'violet':'#1a0b20','violet-light':'#f5ebfa'
+  };
+  document.getElementById('theme-meta').content=bgMap[themeAttr]||'#dedad6';
   segSel('segTheme',t);updateVals();
 }
 function applyColorTheme(ct){
@@ -1085,22 +1183,22 @@ function _preload(files){
   });
 }
 
-/* Pre-decode all 4 sounds immediately */
+/* Pre-decode click + switch only */
 (function(){
-  try{_preload(['pop.mp3','click.mp3','flip.mp3','switch.mp3']);}catch(e){}
+  try{_preload(['click.mp3','switch.mp3']);}catch(e){}
 })();
 
 function beep(t){
   var pk=cfg.soundPack||'pop';
   if(!cfg.sound||pk==='silent')return;
   var packMap={
-    'pop'   :{num:'pop.mp3',   op:'flip.mp3',   eq:'flip.mp3',   c:'switch.mp3', del:'switch.mp3', x:'pop.mp3'},
-    'click' :{num:'click.mp3', op:'click.mp3',  eq:'flip.mp3',   c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
-    'flip'  :{num:'flip.mp3',  op:'flip.mp3',   eq:'flip.mp3',   c:'switch.mp3', del:'switch.mp3', x:'flip.mp3'},
+    'pop'   :{num:'click.mp3', op:'click.mp3',  eq:'switch.mp3', c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
+    'click' :{num:'click.mp3', op:'click.mp3',  eq:'switch.mp3', c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
+    'flip'  :{num:'click.mp3', op:'click.mp3',  eq:'switch.mp3', c:'switch.mp3', del:'switch.mp3', x:'click.mp3'},
     'switch':{num:'switch.mp3',op:'switch.mp3', eq:'switch.mp3', c:'switch.mp3', del:'switch.mp3', x:'switch.mp3'}
   };
   var map=packMap[pk]||packMap['pop'];
-  var file=map[t]||'pop.mp3';
+  var file=map[t]||'click.mp3';
   try{
     var ctx=_getCtx();
     var buf=_bufs[file];
@@ -1273,8 +1371,9 @@ function applyCalcMode(mode){
   var modeBtn=document.getElementById('modeBtn');
   if(modeBtn){
     modeBtn.classList.toggle('active',mode!=='standard');
-    var icons={standard:'⊞',scientific:'📐',programmer:'💻',unit:'📏',gst:'🧾',emi:'🏦',split:'🍕'};
-    modeBtn.textContent=icons[mode]||'⊞';
+    var svgGrid='<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="7" height="7" rx="2" fill="currentColor"/><rect x="9" y="0" width="7" height="7" rx="2" fill="currentColor"/><rect x="0" y="9" width="7" height="7" rx="2" fill="currentColor"/><rect x="9" y="9" width="7" height="7" rx="2" fill="currentColor"/></svg>';
+    var icons={scientific:'📐',programmer:'💻',unit:'⚖️',gst:'🧾',emi:'🏦',split:'🍕'};
+    modeBtn.innerHTML=mode==='standard'?svgGrid:icons[mode]||svgGrid;
   }
   // Update mode picker selection
   document.querySelectorAll('.mode-item').forEach(function(el){
@@ -1299,51 +1398,247 @@ function closeModePicker(){
 function openTool(id){document.getElementById(id).classList.add('open');}
 function closeTool(id){document.getElementById(id).classList.remove('open');}
 
-/* ── UNIT CONVERTER ── */
-var unitCat='weight', unitFlipped=false;
-var UNITS={
-  weight:{from:'Kilograms (kg)',to:'Pounds (lb)',ratio:2.20462,flip:{from:'Pounds (lb)',to:'Kilograms (kg)',ratio:1/2.20462}},
-  length:{from:'Kilometers (km)',to:'Miles (mi)',ratio:0.621371,flip:{from:'Miles (mi)',to:'Kilometers (km)',ratio:1/0.621371}},
-  temp:{from:'Celsius (°C)',to:'Fahrenheit (°F)',toFn:function(v){return v*9/5+32;},fromFn:function(v){return (v-32)*5/9;}}
+/* ── UNIT CONVERTER v2 ── */
+var UNIT_CATS={
+  length:{base:'m',units:[
+    {key:'mm',   label:'mm – Millimeter',        toBase:function(v){return v/1000;},      fromBase:function(v){return v*1000;}},
+    {key:'cm',   label:'cm – Centimeter',         toBase:function(v){return v/100;},       fromBase:function(v){return v*100;}},
+    {key:'m',    label:'m – Meter',               toBase:function(v){return v;},           fromBase:function(v){return v;}},
+    {key:'km',   label:'km – Kilometer',          toBase:function(v){return v*1000;},      fromBase:function(v){return v/1000;}},
+    {key:'in',   label:'in – Inch',               toBase:function(v){return v*0.0254;},    fromBase:function(v){return v/0.0254;}},
+    {key:'ft',   label:'ft – Foot',               toBase:function(v){return v*0.3048;},    fromBase:function(v){return v/0.3048;}},
+    {key:'yd',   label:'yd – Yard',               toBase:function(v){return v*0.9144;},    fromBase:function(v){return v/0.9144;}},
+    {key:'mi',   label:'mi – Mile',               toBase:function(v){return v*1609.344;},  fromBase:function(v){return v/1609.344;}},
+    {key:'nmi',  label:'nmi – Nautical Mile',     toBase:function(v){return v*1852;},      fromBase:function(v){return v/1852;}},
+    {key:'ly',   label:'ly – Light Year',         toBase:function(v){return v*9.461e15;},  fromBase:function(v){return v/9.461e15;}}
+  ]},
+  weight:{base:'kg',units:[
+    {key:'mg',   label:'mg – Milligram',          toBase:function(v){return v/1e6;},        fromBase:function(v){return v*1e6;}},
+    {key:'g',    label:'g – Gram',                toBase:function(v){return v/1000;},       fromBase:function(v){return v*1000;}},
+    {key:'kg',   label:'kg – Kilogram',           toBase:function(v){return v;},            fromBase:function(v){return v;}},
+    {key:'t',    label:'t – Metric Ton',          toBase:function(v){return v*1000;},       fromBase:function(v){return v/1000;}},
+    {key:'lb',   label:'lb – Pound',              toBase:function(v){return v*0.453592;},   fromBase:function(v){return v/0.453592;}},
+    {key:'oz',   label:'oz – Ounce',              toBase:function(v){return v*0.0283495;},  fromBase:function(v){return v/0.0283495;}},
+    {key:'st',   label:'st – Stone',              toBase:function(v){return v*6.35029;},    fromBase:function(v){return v/6.35029;}},
+    {key:'slug', label:'slug – Slug',             toBase:function(v){return v*14.5939;},    fromBase:function(v){return v/14.5939;}}
+  ]},
+  temp:{base:'C',units:[
+    {key:'C',    label:'°C – Celsius',            toBase:function(v){return v;},                    fromBase:function(v){return v;}},
+    {key:'F',    label:'°F – Fahrenheit',         toBase:function(v){return (v-32)*5/9;},           fromBase:function(v){return v*9/5+32;}},
+    {key:'K',    label:'K – Kelvin',              toBase:function(v){return v-273.15;},             fromBase:function(v){return v+273.15;}},
+    {key:'R',    label:'°R – Rankine',            toBase:function(v){return (v-491.67)*5/9;},       fromBase:function(v){return (v+273.15)*9/5;}}
+  ]},
+  area:{base:'m2',units:[
+    {key:'mm2',  label:'mm² – Sq. Millimeter',   toBase:function(v){return v/1e6;},        fromBase:function(v){return v*1e6;}},
+    {key:'cm2',  label:'cm² – Sq. Centimeter',   toBase:function(v){return v/1e4;},        fromBase:function(v){return v*1e4;}},
+    {key:'m2',   label:'m² – Sq. Meter',         toBase:function(v){return v;},            fromBase:function(v){return v;}},
+    {key:'km2',  label:'km² – Sq. Kilometer',    toBase:function(v){return v*1e6;},        fromBase:function(v){return v/1e6;}},
+    {key:'ha',   label:'ha – Hectare',           toBase:function(v){return v*1e4;},        fromBase:function(v){return v/1e4;}},
+    {key:'ac',   label:'ac – Acre',              toBase:function(v){return v*4046.86;},    fromBase:function(v){return v/4046.86;}},
+    {key:'ft2',  label:'ft² – Sq. Foot',         toBase:function(v){return v*0.092903;},   fromBase:function(v){return v/0.092903;}},
+    {key:'in2',  label:'in² – Sq. Inch',         toBase:function(v){return v*0.00064516;}, fromBase:function(v){return v/0.00064516;}},
+    {key:'mi2',  label:'mi² – Sq. Mile',         toBase:function(v){return v*2.59e6;},     fromBase:function(v){return v/2.59e6;}},
+    {key:'yd2',  label:'yd² – Sq. Yard',         toBase:function(v){return v*0.836127;},   fromBase:function(v){return v/0.836127;}}
+  ]},
+  volume:{base:'L',units:[
+    {key:'mL',   label:'mL – Milliliter',         toBase:function(v){return v/1000;},       fromBase:function(v){return v*1000;}},
+    {key:'L',    label:'L – Liter',               toBase:function(v){return v;},            fromBase:function(v){return v;}},
+    {key:'m3',   label:'m³ – Cubic Meter',        toBase:function(v){return v*1000;},       fromBase:function(v){return v/1000;}},
+    {key:'cm3',  label:'cm³ – Cubic Centimeter',  toBase:function(v){return v/1000;},       fromBase:function(v){return v*1000;}},
+    {key:'floz', label:'fl oz – US Fluid Ounce',  toBase:function(v){return v*0.0295735;},  fromBase:function(v){return v/0.0295735;}},
+    {key:'cup',  label:'cup – US Cup',            toBase:function(v){return v*0.236588;},   fromBase:function(v){return v/0.236588;}},
+    {key:'pt',   label:'pt – US Pint',            toBase:function(v){return v*0.473176;},   fromBase:function(v){return v/0.473176;}},
+    {key:'qt',   label:'qt – US Quart',           toBase:function(v){return v*0.946353;},   fromBase:function(v){return v/0.946353;}},
+    {key:'gal',  label:'gal – US Gallon',         toBase:function(v){return v*3.78541;},    fromBase:function(v){return v/3.78541;}},
+    {key:'galuk',label:'gal – UK Gallon',         toBase:function(v){return v*4.54609;},    fromBase:function(v){return v/4.54609;}},
+    {key:'tsp',  label:'tsp – Teaspoon',          toBase:function(v){return v*0.00492892;}, fromBase:function(v){return v/0.00492892;}},
+    {key:'tbsp', label:'tbsp – Tablespoon',       toBase:function(v){return v*0.0147868;},  fromBase:function(v){return v/0.0147868;}}
+  ]},
+  speed:{base:'ms',units:[
+    {key:'ms',   label:'m/s – Meters/second',    toBase:function(v){return v;},          fromBase:function(v){return v;}},
+    {key:'kmh',  label:'km/h – Kilometers/hour', toBase:function(v){return v/3.6;},      fromBase:function(v){return v*3.6;}},
+    {key:'mph',  label:'mph – Miles/hour',       toBase:function(v){return v*0.44704;},  fromBase:function(v){return v/0.44704;}},
+    {key:'knots',label:'kn – Knots',             toBase:function(v){return v*0.514444;}, fromBase:function(v){return v/0.514444;}},
+    {key:'fts',  label:'ft/s – Feet/second',     toBase:function(v){return v*0.3048;},   fromBase:function(v){return v/0.3048;}},
+    {key:'mach', label:'Mach – Mach Number',     toBase:function(v){return v*340.29;},   fromBase:function(v){return v/340.29;}},
+    {key:'c',    label:'c – Speed of Light',     toBase:function(v){return v*2.998e8;},  fromBase:function(v){return v/2.998e8;}}
+  ]},
+  time:{base:'s',units:[
+    {key:'ns',   label:'ns – Nanosecond',         toBase:function(v){return v/1e9;},       fromBase:function(v){return v*1e9;}},
+    {key:'us',   label:'µs – Microsecond',        toBase:function(v){return v/1e6;},       fromBase:function(v){return v*1e6;}},
+    {key:'ms',   label:'ms – Millisecond',        toBase:function(v){return v/1000;},      fromBase:function(v){return v*1000;}},
+    {key:'s',    label:'s – Second',              toBase:function(v){return v;},           fromBase:function(v){return v;}},
+    {key:'min',  label:'min – Minute',            toBase:function(v){return v*60;},        fromBase:function(v){return v/60;}},
+    {key:'hr',   label:'hr – Hour',               toBase:function(v){return v*3600;},      fromBase:function(v){return v/3600;}},
+    {key:'day',  label:'day – Day',               toBase:function(v){return v*86400;},     fromBase:function(v){return v/86400;}},
+    {key:'week', label:'wk – Week',               toBase:function(v){return v*604800;},    fromBase:function(v){return v/604800;}},
+    {key:'month',label:'mo – Month (avg)',         toBase:function(v){return v*2629800;},   fromBase:function(v){return v/2629800;}},
+    {key:'year', label:'yr – Year',               toBase:function(v){return v*31557600;},  fromBase:function(v){return v/31557600;}}
+  ]},
+  data:{base:'bit',units:[
+    {key:'bit',  label:'bit – Bit',               toBase:function(v){return v;},            fromBase:function(v){return v;}},
+    {key:'B',    label:'B – Byte',                toBase:function(v){return v*8;},          fromBase:function(v){return v/8;}},
+    {key:'KB',   label:'KB – Kilobyte',           toBase:function(v){return v*8000;},       fromBase:function(v){return v/8000;}},
+    {key:'MB',   label:'MB – Megabyte',           toBase:function(v){return v*8e6;},        fromBase:function(v){return v/8e6;}},
+    {key:'GB',   label:'GB – Gigabyte',           toBase:function(v){return v*8e9;},        fromBase:function(v){return v/8e9;}},
+    {key:'TB',   label:'TB – Terabyte',           toBase:function(v){return v*8e12;},       fromBase:function(v){return v/8e12;}},
+    {key:'PB',   label:'PB – Petabyte',           toBase:function(v){return v*8e15;},       fromBase:function(v){return v/8e15;}},
+    {key:'KiB',  label:'KiB – Kibibyte',          toBase:function(v){return v*8192;},       fromBase:function(v){return v/8192;}},
+    {key:'MiB',  label:'MiB – Mebibyte',          toBase:function(v){return v*8388608;},    fromBase:function(v){return v/8388608;}},
+    {key:'GiB',  label:'GiB – Gibibyte',          toBase:function(v){return v*8589934592;}, fromBase:function(v){return v/8589934592;}}
+  ]},
+  energy:{base:'J',units:[
+    {key:'J',    label:'J – Joule',               toBase:function(v){return v;},            fromBase:function(v){return v;}},
+    {key:'kJ',   label:'kJ – Kilojoule',          toBase:function(v){return v*1000;},       fromBase:function(v){return v/1000;}},
+    {key:'cal',  label:'cal – Calorie',           toBase:function(v){return v*4.184;},      fromBase:function(v){return v/4.184;}},
+    {key:'kcal', label:'kcal – Kilocalorie',      toBase:function(v){return v*4184;},       fromBase:function(v){return v/4184;}},
+    {key:'Wh',   label:'Wh – Watt-hour',          toBase:function(v){return v*3600;},       fromBase:function(v){return v/3600;}},
+    {key:'kWh',  label:'kWh – Kilowatt-hour',     toBase:function(v){return v*3.6e6;},      fromBase:function(v){return v/3.6e6;}},
+    {key:'eV',   label:'eV – Electronvolt',       toBase:function(v){return v*1.60218e-19;},fromBase:function(v){return v/1.60218e-19;}},
+    {key:'BTU',  label:'BTU – British Thermal Unit',toBase:function(v){return v*1055.06;},  fromBase:function(v){return v/1055.06;}},
+    {key:'ftlb', label:'ft·lb – Foot-pound',      toBase:function(v){return v*1.35582;},    fromBase:function(v){return v/1.35582;}}
+  ]},
+  pressure:{base:'Pa',units:[
+    {key:'Pa',   label:'Pa – Pascal',             toBase:function(v){return v;},          fromBase:function(v){return v;}},
+    {key:'kPa',  label:'kPa – Kilopascal',        toBase:function(v){return v*1000;},     fromBase:function(v){return v/1000;}},
+    {key:'MPa',  label:'MPa – Megapascal',        toBase:function(v){return v*1e6;},      fromBase:function(v){return v/1e6;}},
+    {key:'bar',  label:'bar – Bar',               toBase:function(v){return v*1e5;},      fromBase:function(v){return v/1e5;}},
+    {key:'mbar', label:'mbar – Millibar',         toBase:function(v){return v*100;},      fromBase:function(v){return v/100;}},
+    {key:'atm',  label:'atm – Atmosphere',        toBase:function(v){return v*101325;},   fromBase:function(v){return v/101325;}},
+    {key:'mmHg', label:'mmHg – Millimeter Mercury',toBase:function(v){return v*133.322;}, fromBase:function(v){return v/133.322;}},
+    {key:'psi',  label:'psi – Pound/sq. inch',   toBase:function(v){return v*6894.76;},  fromBase:function(v){return v/6894.76;}},
+    {key:'inHg', label:'inHg – Inch Mercury',    toBase:function(v){return v*3386.39;},  fromBase:function(v){return v/3386.39;}}
+  ]},
+  angle:{base:'deg',units:[
+    {key:'deg',  label:'° – Degree',              toBase:function(v){return v;},                  fromBase:function(v){return v;}},
+    {key:'rad',  label:'rad – Radian',            toBase:function(v){return v*180/Math.PI;},      fromBase:function(v){return v*Math.PI/180;}},
+    {key:'grad', label:'grad – Gradian',          toBase:function(v){return v*0.9;},              fromBase:function(v){return v/0.9;}},
+    {key:'arcmin',label:"' – Arcminute",          toBase:function(v){return v/60;},               fromBase:function(v){return v*60;}},
+    {key:'arcsec',label:'" – Arcsecond',          toBase:function(v){return v/3600;},             fromBase:function(v){return v*3600;}},
+    {key:'turn', label:'turn – Revolution',       toBase:function(v){return v*360;},              fromBase:function(v){return v/360;}}
+  ]},
+  fuel:{base:'lpkm',units:[
+    {key:'lpkm', label:'L/100km – Liters per 100km',toBase:function(v){return v;},                         fromBase:function(v){return v;}},
+    {key:'kml',  label:'km/L – Kilometers per Liter',toBase:function(v){return v===0?0:100/v;},            fromBase:function(v){return v===0?0:100/v;}},
+    {key:'mpgus',label:'MPG (US) – Miles/Gallon',   toBase:function(v){return v===0?0:235.215/v;},        fromBase:function(v){return v===0?0:235.215/v;}},
+    {key:'mpguk',label:'MPG (UK) – Miles/Gallon UK',toBase:function(v){return v===0?0:282.481/v;},        fromBase:function(v){return v===0?0:282.481/v;}}
+  ]}
 };
-function unitUpdateLabels(){
-  var u=UNITS[unitCat];
-  var src=unitFlipped&&u.flip?u.flip:u;
-  document.getElementById('unitFromLbl').textContent=src.from;
-  document.getElementById('unitToLbl').textContent=src.to;
-  document.getElementById('unitOutput').textContent='—';
+
+var unitCurCat='length';
+var unitFromKey={length:'km',weight:'kg',temp:'C',area:'m2',volume:'L',speed:'kmh',time:'hr',data:'GB',energy:'kJ',pressure:'atm',angle:'deg',fuel:'lpkm'};
+var unitToKey  ={length:'m', weight:'lb',temp:'F',area:'ft2',volume:'gal',speed:'mph',time:'min',data:'MB',energy:'kcal',pressure:'psi',angle:'rad',fuel:'kml'};
+
+function unitGetUnit(cat,key){
+  var cd=UNIT_CATS[cat];if(!cd)return null;
+  for(var i=0;i<cd.units.length;i++){if(cd.units[i].key===key)return cd.units[i];}
+  return null;
 }
 function unitCalc(){
   var v=parseFloat(document.getElementById('unitInput').value);
-  if(isNaN(v)){document.getElementById('unitOutput').textContent='—';return;}
-  var u=UNITS[unitCat];
-  var res;
-  if(unitCat==='temp'){
-    res=unitFlipped?u.fromFn(v):u.toFn(v);
-  } else {
-    var src=unitFlipped&&u.flip?u.flip:u;
-    res=v*src.ratio;
-  }
-  res=Math.round(res*100000)/100000;
-  document.getElementById('unitOutput').textContent=res;
+  var outEl=document.getElementById('unitOutput');
+  if(isNaN(v)){outEl.textContent='—';return;}
+  var fu=unitGetUnit(unitCurCat,unitFromKey[unitCurCat]);
+  var tu=unitGetUnit(unitCurCat,unitToKey[unitCurCat]);
+  if(!fu||!tu){outEl.textContent='—';return;}
+  var base=fu.toBase(v);
+  var res=tu.fromBase(base);
+  var str;
+  if(!isFinite(res)){str='∞';}
+  else if(Math.abs(res)>=1e9||(res!==0&&Math.abs(res)<1e-6)){str=res.toExponential(6);}
+  else{str=String(parseFloat(res.toPrecision(8)));}
+  outEl.textContent=str;
   return res;
 }
-
+function unitBuildList(listEl,btnEl,labelEl,which){
+  var cd=UNIT_CATS[unitCurCat];if(!cd)return;
+  listEl.innerHTML='';
+  var curKey=which==='from'?unitFromKey[unitCurCat]:unitToKey[unitCurCat];
+  cd.units.forEach(function(u){
+    var item=document.createElement('div');
+    item.className='unit-dd-item'+(u.key===curKey?' sel':'');
+    item.textContent=u.label;
+    item.addEventListener('click',function(e){
+      e.stopPropagation();
+      if(which==='from'){unitFromKey[unitCurCat]=u.key;}else{unitToKey[unitCurCat]=u.key;}
+      labelEl.textContent=u.label;
+      listEl.classList.remove('open');btnEl.classList.remove('open');
+      unitCalc();
+    });
+    listEl.appendChild(item);
+  });
+}
+function unitPopulateSelects(){
+  var fu=unitGetUnit(unitCurCat,unitFromKey[unitCurCat]);
+  var tu=unitGetUnit(unitCurCat,unitToKey[unitCurCat]);
+  var fl=document.getElementById('unitFromLabel'),tl=document.getElementById('unitToLabel');
+  if(fl)fl.textContent=fu?fu.label:'—';
+  if(tl)tl.textContent=tu?tu.label:'—';
+  unitBuildList(document.getElementById('unitFromList'),document.getElementById('unitFromBtn'),document.getElementById('unitFromLabel'),'from');
+  unitBuildList(document.getElementById('unitToList'),  document.getElementById('unitToBtn'),  document.getElementById('unitToLabel'),  'to');
+}
+function unitCloseAllDD(){
+  document.querySelectorAll('.unit-dd-list').forEach(function(l){l.classList.remove('open');});
+  document.querySelectorAll('.unit-dd-btn').forEach(function(b){b.classList.remove('open');});
+}
+function unitToggleDD(listEl,btnEl){
+  var wasOpen=listEl.classList.contains('open');
+  unitCloseAllDD();
+  if(!wasOpen){listEl.classList.add('open');btnEl.classList.add('open');}
+}
 function initUnitConverter(){
-  document.getElementById('unitClose').addEventListener('click',function(){closeTool('toolUnit');});
-  document.getElementById('unitCalcBtn').addEventListener('click',unitCalc);
-  document.getElementById('unitFlipBtn').addEventListener('click',function(){unitFlipped=!unitFlipped;unitUpdateLabels();unitCalc();vibe(6);});
-  document.getElementById('unitUseBtn').addEventListener('click',function(){
-    var v=parseFloat(document.getElementById('unitOutput').textContent);
-    if(!isNaN(v)){entry=String(v);render();closeTool('toolUnit');closeModePicker();applyCalcMode('standard');}
+  document.getElementById('unitClose').addEventListener('click',function(){unitCloseAllDD();closeTool('toolUnit');});
+
+  /* Category strip */
+  document.getElementById('unitCatStrip').addEventListener('click',function(e){
+    var btn=e.target.closest('[data-ucat]');if(!btn)return;
+    unitCurCat=btn.dataset.ucat;
+    document.querySelectorAll('.unit-cat-btn').forEach(function(b){b.classList.toggle('sel',b.dataset.ucat===unitCurCat);});
+    document.getElementById('unitInput').value='';
+    document.getElementById('unitOutput').textContent='—';
+    unitCloseAllDD();
+    unitPopulateSelects();
+    vibe(4);
   });
-  document.getElementById('unitCatSeg').addEventListener('click',function(e){
-    var b=e.target.closest('[data-cat]');if(!b)return;
-    unitCat=b.dataset.cat;unitFlipped=false;
-    document.querySelectorAll('#unitCatSeg .tool-seg-btn').forEach(function(x){x.classList.toggle('sel',x.dataset.cat===unitCat);});
-    unitUpdateLabels();vibe(4);
+
+  /* From dropdown */
+  document.getElementById('unitFromBtn').addEventListener('click',function(e){
+    e.stopPropagation();
+    unitBuildList(document.getElementById('unitFromList'),document.getElementById('unitFromBtn'),document.getElementById('unitFromLabel'),'from');
+    unitToggleDD(document.getElementById('unitFromList'),document.getElementById('unitFromBtn'));
   });
+
+  /* To dropdown */
+  document.getElementById('unitToBtn').addEventListener('click',function(e){
+    e.stopPropagation();
+    unitBuildList(document.getElementById('unitToList'),document.getElementById('unitToBtn'),document.getElementById('unitToLabel'),'to');
+    unitToggleDD(document.getElementById('unitToList'),document.getElementById('unitToBtn'));
+  });
+
+  /* Flip */
+  document.getElementById('unitFlipBtn').addEventListener('click',function(){
+    var tmp=unitFromKey[unitCurCat];
+    unitFromKey[unitCurCat]=unitToKey[unitCurCat];
+    unitToKey[unitCurCat]=tmp;
+    unitPopulateSelects();unitCalc();vibe(6);
+  });
+
+  /* Live input */
   document.getElementById('unitInput').addEventListener('input',unitCalc);
+
+  /* Use result */
+  document.getElementById('unitUseBtn').addEventListener('click',function(){
+    var txt=document.getElementById('unitOutput').textContent;
+    var v=parseFloat(txt);
+    if(!isNaN(v)&&txt!=='—'&&txt!=='∞'){entry=String(v);render();closeTool('toolUnit');closeModePicker();applyCalcMode('standard');}
+  });
+
+  /* Close on outside tap */
+  document.getElementById('toolUnit').addEventListener('click',function(e){
+    if(!e.target.closest('.unit-dd'))unitCloseAllDD();
+  });
+
+  unitPopulateSelects();
 }
 
 /* ── GST CALCULATOR ── */
